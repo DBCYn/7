@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人简历</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .resume-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .resume-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3498db, #e74c3c, #f39c12);
+        }
+        
+        .section {
+            padding: 25px 30px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            color: #3498db;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .section:hover .section-title {
+            text-align: center;
+            justify-content: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover .section-title i {
+            transform: rotate(15deg) scale(1.1);
+        }
+        
+        .basic-info-container {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .photo-container {
+            width: 100px;
+            height: 120px;
+            border: 3px solid #3498db;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            position: relative;
+        }
+        
+        .photo-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            border-color: #e74c3c;
+        }
+        
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .photo.active {
+            opacity: 1;
+        }
+        
+        .info-grid {
+            display: flex;
+            flex-wrap: wrap;
+            flex-grow: 1;
+        }
+        
+        .info-item {
+            width: 50%;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .info-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #555;
+            display: inline-block;
+            width: 90px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-label i {
+            margin-right: 8px;
+            color: #3498db;
+        }
+        
+        .project {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f5f9ff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .project:hover::before {
+            width: 8px;
+        }
+        
+        .project-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-title i {
+            margin-right: 8px;
+            color: #e74c3c;
+        }
+        
+        .project-time {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-time i {
+            margin-right: 8px;
+            color: #f39c12;
+        }
+        
+        .project-desc {
+            text-align: justify;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .project-desc::before {
+            content: "»";
+            position: absolute;
+            left: 5px;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .skills-list, .hobby-list {
+            list-style-type: none;
+        }
+        
+        .skills-list li, .hobby-list li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .skills-list li:hover, .hobby-list li:hover {
+            transform: translateX(10px);
+        }
+        
+        .skills-list li:before, .hobby-list li:before {
+            content: "✓";
+            color: #3498db;
+            position: absolute;
+            left: 5px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        
+        .skills-list li:hover:before, .hobby-list li:hover:before {
+            transform: scale(1.5);
+        }
+        
+        .self-evaluation {
+            text-align: justify;
+            line-height: 1.8;
+        }
+        
+        .self-evaluation p {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .self-evaluation p::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .icon-highlight {
+            color: #e74c3c;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <div class="header">
+            <h1><i class="fas fa-user-tie"></i> 个人简历</h1>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-info-circle"></i> 基本信息</h2>
+            <div class="basic-info-container">
+                <div class="photo-container">
+                    <img src="1.jpg" alt="个人照片" class="photo active">
+                    <img src="2.jpg" alt="个人照片" class="photo">
+                    <img src="3.jpg" alt="个人照片" class="photo">
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-user"></i>姓名</span>牛绪彪
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-birthday-cake"></i>年龄</span>20
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-venus-mars"></i>性别</span>男
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-map-marker-alt"></i>籍贯</span>山东
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-phone"></i>联系电话</span>176-1608-8708
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-envelope"></i>电子邮箱</span>nxb_iuuiao@outlook.com
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-graduation-cap"></i>学历</span>本科
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label"><i class="fas fa-heartbeat"></i>健康状况</span>良好
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-bullseye"></i> 求职意向</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-briefcase"></i>求职岗位</span>前端开发工程师
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-laptop-code"></i>专业</span>软件工程
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-university"></i>毕业院校</span>烟台理工学院
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-certificate"></i> 技能证书</h2>
+            <ul class="skills-list">
+                <li><i class="fas fa-language icon-highlight"></i> 英语四级证书</li>
+                <li><i class="fas fa-laptop icon-highlight"></i> 计算机等级考试二级证书</li>
+                <li><i class="fas fa-code icon-highlight"></i> 前端开发工程师认证</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-star"></i> 个人特长与爱好</h2>
+            <ul class="hobby-list">
+                <li><i class="fab fa-js-square"></i> 擅长JavaScript、HTML、CSS</li>
+                <li><i class="fas fa-running"></i> 热爱语言、跑步</li>
+                <li><i class="fas fa-book-reader"></i> 喜欢阅读技术书籍</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-project-diagram"></i> 项目经历</h2>
+            <div class="project">
+                <div class="project-title"><i class="fas fa-laptop-code"></i> 项目名称：在线教育平台开发</div>
+                <div class="project-time"><i class="far fa-calendar-alt"></i> 项目时间：2023年3月 - 2023年8月</div>
+                <div class="project-desc">负责制定测试方案，使用Web按钮实现动态交互。</div>
+            </div>
+            <div class="project">
+                <div class="project-title"><i class="fas fa-globe"></i> 项目名称：企业官网重构</div>
+                <div class="project-time"><i class="far fa-calendar-alt"></i> 项目时间：2024年9月 - 2024年12月</div>
+                <div class="project-desc">使用HTML5和CSS进行页面重构，优化用户体验。</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-comment-dots"></i> 自我评价</h2>
+            <div class="self-evaluation">
+                <p>本人性格开朗乐观，积极进取，具备良好的沟通表达能力和团队协作精神。作为软件工程专业的本科毕业生，我系教学了数据结构、算法、计算机网络等计算机核心课程，掌握了扎实的编程理论基础。</p>
+                <p>在校期间，我特别注重前期计划学习和改进，熟练掌握了HTML5、CSS3、JavaScript等新颖开发技术，并对Web按钮操作深入的理解和应用经验。</p>
+                <p>通过参与在线教育平台开发有公司调研专家组实践，探索基于丰富的实战经验，培养了良好的代码视觉和工程化思维。在项目研究过程中，我能够快速掌握技术、独立解决问题，并与团队成员紧密协作。</p>
+                <p>我特别注重用户体验和界面细节，能够有效计算精准转化为高质量的网页产品。我热爱编程和技术学习，保持精耕细学30日习惯，经常通过技术博客、开源社区等渠道了解行业最新动态。</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const photos = document.querySelectorAll('.photo-container .photo');
+            let currentIndex = 0;
+            
+            function rotatePhotos() {
+                // 隐藏当前照片
+                photos[currentIndex].classList.remove('active');
+                
+                // 计算下一张照片的索引
+                currentIndex = (currentIndex + 1) % photos.length;
+                
+                // 显示下一张照片
+                photos[currentIndex].classList.add('active');
+                
+                // 3秒后再次轮换
+                setTimeout(rotatePhotos, 3000);
+            }
+            
+            // 3秒后开始轮换
+            setTimeout(rotatePhotos, 3000);
+        });
+    </script>
+</body>
+</html>
